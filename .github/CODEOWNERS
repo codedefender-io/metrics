@@ -1,0 +1,14 @@
+# CODEOWNERS file for trigger_test repository
+# This file defines who must review and approve changes to specific paths
+# 
+# Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+/binaries/                      @Dan0xE
+*.exe                           @Dan0xE
+*.pdb                           @Dan0xE
+*.dll                           @Dan0xE
+
+/.github/workflows/             @Dan0xE
+/.github/workflows/benchmark.yml @Dan0xE
+
+/.github/CODEOWNERS             @Dan0xE
