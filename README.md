@@ -1,6 +1,6 @@
 # Metrics
 
-This repository contains binaries used to benchmark Vmprotect vs Themida vs Codedefender, along with all obfuscated binary variants, associated configuration files, and raw benchmark data.
+This repository contains binaries used to benchmark VMProtect vs Themida vs Codedefender, along with all obfuscated binary variants, associated configuration files, and raw benchmark data.
 
 Visualized metric data can be seen on https://metrics.codedefender.io/
 
@@ -55,7 +55,7 @@ We don't know
 
 This might indicate a problem with the benchmark run, please open an issue if you happen to see this!
 
-## Why are VmProtect transformation rates so low?
+## Why are VMProtect transformation rates so low?
 
 Our benchmark tool generates configs that include every symbol found in the PDB.
 
