@@ -4,7 +4,7 @@ This repository contains binaries used to benchmark Vmprotect vs Themida vs Code
 
 Visualized metric data can be seen on https://metrics.codedefender.io/
 
-> [!IMPORTANT]
+> [!IMPORTANT] 
 > [Themida benchmarks are currently missing](#why-is-themida-missing-in-the-benchmarks).
 
 ## What do the metrics include
@@ -54,6 +54,18 @@ We don't know
 ## Why are all charts empty?
 
 This might indicate a problem with the benchmark run, please open an issue if you happen to see this!
+
+## Why are VmProtect transformation rates so low?
+
+Our benchmark tool generates configs that include every symbol found in the PDB.
+
+When VmProtect runs and hits errors, we parse the error messages to identify conflicting symbol and remove it from the config.
+
+The problem: VmProtect sometimes reports incorrect symbol names in error messages, making it hard to identify which symbol actually caused the conflict.
+
+As a workaround, we pre-filter symbols known to trigger this behavior.
+
+We're actively working on a fix!
 
 ## Why is Themida Missing in the benchmarks
 
