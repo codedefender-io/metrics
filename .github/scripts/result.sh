@@ -65,7 +65,14 @@ for i in $(seq 0 $((OBFUSCATED_COUNT-1))); do
             *) CONFIG_EXT=".config" ;;
         esac
         
-        curl -s -o "binaries/$BINARY_NAME/configs/${VARIANT}${CONFIG_EXT}" "$CONFIG_URL"
+        CONFIG_FILE="binaries/$BINARY_NAME/configs/${VARIANT}${CONFIG_EXT}"
+        curl -s -o "$CONFIG_FILE" "$CONFIG_URL"
+        
+        if [[ "$CONFIG_EXT" == ".yml" ]]; then
+            sed -i 's/\\n/\n/g' "$CONFIG_FILE" 2>/dev/null || true
+            sed -i 's/^"//; s/"$//' "$CONFIG_FILE" 2>/dev/null || true
+        fi
+        
         echo "  Downloaded config: ${VARIANT}${CONFIG_EXT}"
     }
 done
