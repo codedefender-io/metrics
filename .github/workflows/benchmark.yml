@@ -1,0 +1,206 @@
+name: Automated Benchmarking
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "binaries/**/*.exe"
+      - "binaries/**/*.pdb"
+  workflow_dispatch:
+    inputs:
+      binary_path:
+        description: "Path to binary file to benchmark"
+        required: true
+        type: string
+      pdb_path:
+        description: "Path to PDB file"
+        required: true
+        type: string
+
+env:
+  API_BASE_URL: ${{ vars.API_BASE_URL }}
+  BENCHMARKER_API_KEY: ${{ secrets.BENCHMARKER_API_KEY }}
+
+jobs:
+  detect-binaries:
+    name: Detect New Binaries
+    runs-on: ubuntu-latest
+    outputs:
+      binaries: ${{ steps.detect.outputs.binaries }}
+      has_binaries: ${{ steps.detect.outputs.has_binaries }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect changed binary files
+        id: detect
+        run: |
+          chmod +x .github/scripts/detect.sh
+          ./.github/scripts/detect.sh "${{ github.event_name }}" "${{ github.event.inputs.binary_path }}" "${{ github.event.inputs.pdb_path }}"
+
+      - name: Log detected binaries
+        run: |
+          echo "Has binaries: ${{ steps.detect.outputs.has_binaries }}"
+          echo "Binaries: ${{ steps.detect.outputs.binaries }}"
+
+  benchmark:
+    name: Run Benchmarks
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    needs: detect-binaries
+    if: needs.detect-binaries.outputs.has_binaries == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      matrix:
+        binary: ${{ fromJson(needs.detect-binaries.outputs.binaries) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          echo "Processing binary: ${{ matrix.binary.name }}"
+          echo "Binary path: ${{ matrix.binary.binary_path }}"
+          echo "PDB path: ${{ matrix.binary.pdb_path }}"
+
+      - name: Verify files exist
+        run: |
+          if [ ! -f "${{ matrix.binary.binary_path }}" ]; then
+            echo "Error: Binary file not found: ${{ matrix.binary.binary_path }}"
+            exit 1
+          fi
+
+          if [ ! -f "${{ matrix.binary.pdb_path }}" ]; then
+            echo "Error: PDB file not found: ${{ matrix.binary.pdb_path }}"
+            exit 1
+          fi
+
+          echo "Binary size: $(stat -c%s '${{ matrix.binary.binary_path }}') bytes"
+          echo "PDB size: $(stat -c%s '${{ matrix.binary.pdb_path }}') bytes"
+
+      - name: Run obfuscation and benchmarking
+        id: benchmark
+        timeout-minutes: 300
+        run: |
+          echo "Starting obfuscation for ${{ matrix.binary.name }}..."
+          echo "This may take several minutes for obfuscation tools to complete."
+          echo "Processing started at: $(date)"
+          echo ""
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            --max-time 0 \
+            -X POST \
+            -H "Authorization: Bearer ${{ env.BENCHMARKER_API_KEY }}" \
+            -F "binary_name=${{ matrix.binary.name }}" \
+            -F "run_vmprotect=true" \
+            -F "run_codedefender=true" \
+            -F "run_themida=false" \
+            -F "binary=@${{ matrix.binary.binary_path }}" \
+            -F "pdb=@${{ matrix.binary.pdb_path }}" \
+            "${{ env.API_BASE_URL }}/obfuscate")
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response Body:"
+          echo "$BODY"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Error: API request failed with status $HTTP_CODE"
+            echo "Response: $BODY"
+            exit 1
+          fi
+
+          echo "$BODY" > benchmark_result.json
+
+          SUCCESS=$(echo "$BODY" | jq -r '.success')
+          PROCESSING_TIME=$(echo "$BODY" | jq -r '.processing_time_seconds')
+          OBFUSCATED_COUNT=$(echo "$BODY" | jq -r '.obfuscated_binaries | length')
+
+          echo "success=$SUCCESS" >> $GITHUB_OUTPUT
+          echo "processing_time=$PROCESSING_TIME" >> $GITHUB_OUTPUT
+          echo "obfuscated_count=$OBFUSCATED_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Process benchmark results
+        if: steps.benchmark.outputs.success == 'true'
+        run: |
+          chmod +x .github/scripts/result.sh
+          ./.github/scripts/result.sh "${{ matrix.binary.name }}"
+
+      - name: Create Pull Request with benchmark results
+        if: steps.benchmark.outputs.success == 'true'
+        run: |
+          chmod +x .github/scripts/pr.sh
+          ./.github/scripts/pr.sh "${{ matrix.binary.name }}" "${{ steps.benchmark.outputs.processing_time }}" "${{ steps.benchmark.outputs.obfuscated_count }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Create commit comment
+        if: steps.benchmark.outputs.success == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const benchmarkResult = JSON.parse(fs.readFileSync('benchmark_result.json', 'utf8'));
+
+            let comment = `## Benchmark Results for \`${{ matrix.binary.name }}\`\n\n`;
+            comment += `**Original Size:** ${(benchmarkResult.original_size / 1024 / 1024).toFixed(2)} MB\n\n`;
+
+            if (benchmarkResult.size_benchmark) {
+              comment += `\n### Size Analysis\n`;
+              benchmarkResult.size_benchmark.variants.forEach(variant => {
+                comment += `- **${variant.tool}**: +${variant.size_increase_percent.toFixed(1)}% (${variant.size_increase_bytes > 0 ? '+' : ''}${(variant.size_increase_bytes / 1024 / 1024).toFixed(2)} MB)\n`;
+              });
+            }
+
+            comment += `\n*View detailed metrics in the \`binaries/${{ matrix.binary.name }}/\` directory*`;
+
+            const commit_sha = context.sha;
+            github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: commit_sha,
+              body: comment
+            });
+
+      - name: Handle benchmark failure
+        if: steps.benchmark.outputs.success != 'true'
+        run: |
+          echo "Benchmark failed for ${{ matrix.binary.name }}"
+
+          if [ -f benchmark_result.json ]; then
+            echo "Error details:"
+            cat benchmark_result.json | jq -r '.error // "Unknown error"'
+          fi
+
+          exit 1
+
+  summary:
+    name: Benchmark Summary
+    runs-on: ubuntu-latest
+    needs: [detect-binaries, benchmark]
+    if: always() && needs.detect-binaries.outputs.has_binaries == 'true'
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## Benchmarking Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.benchmark.result }}" = "success" ]; then
+            echo "All benchmarks completed successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Check the \`binaries/\` directory for detailed results." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Some benchmarks failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Check the job logs for error details." >> $GITHUB_STEP_SUMMARY
+          fi
