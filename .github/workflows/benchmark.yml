@@ -99,10 +99,10 @@ jobs:
             -F "binary_name=${{ matrix.binary.name }}" \
             -F "run_vmprotect=true" \
             -F "run_codedefender=true" \
-            -F "run_themida=false" \
+            -F "run_themida=true" \
             -F "binary=@${{ matrix.binary.binary_path }}" \
             -F "pdb=@${{ matrix.binary.pdb_path }}" \
-            "${{ env.API_BASE_URL }}/obfuscate")
+            "${{ vars.API_BASE_URL }}/obfuscate")
 
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | head -n -1)
