@@ -1,0 +1,418 @@
+version: 1.0.1
+module_settings:
+  ida_crasher: false
+  import_protection: false
+  obscure_entry_point: false
+  clear_unwind_info: false
+  fake_pdb_string:
+    enabled: false
+    value: ''
+  custom_section_name:
+    enabled: false
+    value: ''
+profiles:
+- name: New Profile
+  passes:
+  - type: ObscureReferences
+  - type: MixedBooleanArithmetic
+    iterations: 1
+    probability: 100
+    semantics:
+      add: true
+      sub: true
+      and: true
+      xor: true
+      or: true
+      not: true
+      neg: true
+    bitwidths:
+      bit8: true
+      bit16: true
+      bit32: true
+      bit64: true
+  - type: MutationEngine
+    iterations: 1
+    probability: 100
+    extension: SSE
+    semantics:
+      add: true
+      sub: true
+      and: true
+      xor: true
+      or: true
+      not: true
+      neg: true
+    bitwidths:
+      bit8: true
+      bit16: true
+      bit32: true
+      bit64: true
+  compiler_settings:
+    assembler_settings:
+      shuffle_basic_blocks: true
+      instruction_prefix: ''
+      random_prefix_chance: 0.0
+    optimization_settings:
+      constant_propagation: true
+      instruction_combine: true
+      dead_code_elim: true
+      prune_useless_block_params: true
+      iterations: 0
+    lifter_settings:
+      lift_calls: true
+      calling_convention: WindowsAbi
+      max_stack_copy_size: 512
+      split_on_calls_fallback: true
+  symbols:
+  - !Name __local_stdio_printf_options
+  - !Name is_potentially_valid_image_base
+  - !Name fesetround
+  - !Name softfloat_normRoundPackToF64
+  - !Name __scrt_is_nonwritable_in_current_image$filt$0
+  - !Name test_a_f64_z_ui64_rx
+  - !Name f64_to_i64
+  - !Name __raise_securityfailure
+  - !Name feclearexcept
+  - !Name __isa_available_init
+  - !Name randomN_ui32
+  - !Name writeCase_a_f32
+  - !Name genCases_f32_abc_next
+  - !Name fetestexcept
+  - !Name subj_f64_to_ui64_rx_minMag
+  - !Name writeHex_ui16
+  - !Name random_ui16
+  - !Name writeCase_ab_f32
+  - !Name rand
+  - !Name writeCase_a_ui32
+  - !Name genCases_f64_ab_init
+  - !Name genCases_i64_a_init
+  - !Name _RTC_Terminate
+  - !Name f32_lt
+  - !Name _seh_filter_exe
+  - !Name _vfprintf_l
+  - !Name _set_app_type
+  - !Name genCases_writeTestsTotal
+  - !Name genCases_ui32_a_next
+  - !Name softfloat_normSubnormalF32Sig
+  - !Name subj_i32_to_extF80M
+  - !Name subj_f32_to_i32_rx_minMag
+  - !Name __setusermatherr
+  - !Name f32_eq
+  - !Name verCases_perTenThousand
+  - !Name _configure_narrow_argv
+  - !Name NtCurrentTeb
+  - !Name writeCase_z_ui64
+  - !Name _initialize_narrow_environment
+  - !Name writeCase_z_ui32
+  - !Name test_a_extF80_z_i64_rx
+  - !Name softfloat_normSubnormalExtF80Sig
+  - !Name softfloat_propagateNaNF64UI
+  - !Name extF80M_to_ui64
+  - !Name _get_initial_narrow_environment
+  - !Name subj_i64_to_extF80M
+  - !Name subj_f64_to_i32_rx_minMag
+  - !Name subj_f32_to_i64_rx_minMag
+  - !Name __report_gsfailure
+  - !Name __scrt_acquire_startup_lock
+  - !Name _initterm
+  - !Name test_abz_f64
+  - !Name softfloat_roundToUI64
+  - !Name random_ui32
+  - !Name writeCase_a_ui64
+  - !Name _initterm_e
+  - !Name fail
+  - !Name subj_f32_to_extF80M
+  - !Name subj_f64_to_i64_rx_minMag
+  - !Name __security_init_cookie
+  - !Name subj_f32_add
+  - !Name _exit
+  - !Name _set_fmode
+  - !Name genCases_i64_a_next
+  - !Name writeHex_f32
+  - !Name test_a_ui32_z_f32
+  - !Name __p___argc
+  - !Name test_az_f32_rx
+  - !Name ui64_to_f32
+  - !Name test_a_f64_z_i32_rx
+  - !Name writeHex_extF80M
+  - !Name __p___argv
+  - !Name genCases_f32_ab_init
+  - !Name writeCase_a_extF80M
+  - !Name __castguard_check_failure_debugbreak
+  - !Name fprintf
+  - !Name _cexit
+  - !Name test_a_f32_z_ui32_rx
+  - !Name genCases_i32_a_init
+  - !Name f64_eq
+  - !Name test_ab_extF80_z_bool
+  - !Name _c_exit
+  - !Name subj_f64_to_extF80M
+  - !Name subj_f64_to_f32
+  - !Name subj_f32_sub
+  - !Name subjfloat_setRoundingMode
+  - !Name _register_thread_local_exe_atexit_callback
+  - !Name writeCase_z_bool
+  - !Name genCases_f64_ab_next
+  - !Name test_a_f32_z_f64
+  - !Name test_a_ui64_z_f32
+  - !Name _configthreadlocale
+  - !Name f32_to_ui32
+  - !Name writeCase_z_extF80M
+  - !Name subj_extF80M_to_ui32_rx_minMag
+  - !Name __scrt_dllmain_after_initialize_c
+  - !Name subj_f64_add
+  - !Name _set_new_mode
+  - !Name verCases_writeErrorFound
+  - !Name __castguard_check_failure_fastfail
+  - !Name __p__commode
+  - !Name __scrt_is_nonwritable_in_current_image
+  - !Name i64_to_f64
+  - !Name test_a_f64_z_ui32_rx
+  - !Name softfloat_commonNaNToF64UI
+  - !Name _seh_filter_dll
+  - !Name subj_extF80M_to_ui64_rx_minMag
+  - !Name subj_f32_mul
+  - !Name _initialize_onexit_table
+  - !Name genCases_i32_a_next
+  - !Name f32_roundToInt
+  - !Name _register_onexit_function
+  - !Name randomN_ui64
+  - !Name genCases_extF80_abc_init
+  - !Name extF80M_isSignalingNaN
+  - !Name _execute_onexit_table
+  - !Name _crt_atexit
+  - !Name random_ui64
+  - !Name extF80_roundToInt
+  - !Name extF80_to_i32
+  - !Name _crt_at_quick_exit
+  - !Name __castguard_check_failure_os_handled
+  - !Name writeHex_bool
+  - !Name genCases_f64_a_init
+  - !Name subj_f64_sub
+  - !Name subj_f32_div
+  - !Name terminate
+  - !Name __scrt_dllmain_before_initialize_c
+  - !Name RtlCaptureContext
+  - !Name verCases_exitWithStatus
+  - !Name genCases_f32_ab_next
+  - !Name test_a_f32_z_ui64_rx
+  - !Name softfloat_countLeadingZeros64
+  - !Name subjfloat_clearExceptionFlags
+  - !Name RtlLookupFunctionEntry
+  - !Name extF80M_to_i64
+  - !Name RtlVirtualUnwind
+  - !Name i64_to_f32
+  - !Name UnhandledExceptionFilter
+  - !Name softfloat_shiftRightJam64Extra
+  - !Name __scrt_dllmain_crt_thread_attach
+  - !Name genCases_extF80_ab_init
+  - !Name subj_extF80M_to_i32_rx_minMag
+  - !Name subj_f32_eq
+  - !Name SetUnhandledExceptionFilter
+  - !Name genCases_setLevel
+  - !Name extF80M_same
+  - !Name GetCurrentProcess
+  - !Name __security_check_cookie
+  - !Name __scrt_get_show_window_mode
+  - !Name capture_current_context
+  - !Name verCases_writeTestsPerformed
+  - !Name TerminateProcess
+  - !Name test_ab_f64_z_bool
+  - !Name f32_to_i32
+  - !Name test_a_ui32_z_f64
+  - !Name softfloat_countLeadingZeros32
+  - !Name genCases_extF80_a_init
+  - !Name IsProcessorFeaturePresent
+  - !Name subj_extF80M_to_i64_rx_minMag
+  - !Name subj_f64_mul
+  - !Name test_abz_f32
+  - !Name QueryPerformanceCounter
+  - !Name genCases_f64_a_next
+  - !Name i32_to_f64
+  - !Name genCases_ui64_a_init
+  - !Name __castguard_compat_check
+  - !Name subj_extF80M_to_f32
+  - !Name GetCurrentProcessId
+  - !Name subj_f32_le
+  - !Name f32_same
+  - !Name extF80M_isNaN
+  - !Name GetCurrentThreadId
+  - !Name __scrt_dllmain_crt_thread_detach
+  - !Name test_a_extF80_z_ui32_rx
+  - !Name f32_to_f64
+  - !Name GetSystemTimeAsFileTime
+  - !Name f64_to_i32
+  - !Name pre_c_initialization
+  - !Name writeHex_ui8
+  - !Name InitializeSListHead
+  - !Name _get_startup_argv_mode
+  - !Name writeHex_ui32
+  - !Name softfloat_shiftRightJam64
+  - !Name genCases_f32_a_init
+  - !Name f64_le
+  - !Name IsDebuggerPresent
+  - !Name f32_isNaN
+  - !Name writeHex_softfloat_flags
+  - !Name softfloat_normRoundPackToF32
+  - !Name test_a_i64_z_f32
+  - !Name GetStartupInfoW
+  - !Name __castguard_slow_path_check_debugbreak
+  - !Name _get_startup_file_mode
+  - !Name __scrt_dllmain_exception_filter
+  - !Name test_a_ui64_z_f64
+  - !Name writeCase_ab_extF80M
+  - !Name GetModuleHandleW
+  - !Name __scrt_initialize_mta
+  - !Name subj_extF80M_to_f64
+  - !Name subj_f64_div
+  - !Name __report_rangecheckfailure
+  - !Name genCases_extF80_a_next
+  - !Name __scrt_initialize_type_info
+  - !Name softfloat_roundToUI32
+  - !Name __scrt_is_managed_app
+  - !Name __scrt_release_startup_lock
+  - !Name test_az_extF80_rx
+  - !Name softfloat_shortShiftRightJam64
+  - !Name subj_extF80M_add
+  - !Name test_a_i32_z_f64
+  - !Name genCases_ui64_a_next
+  - !Name __scrt_uninitialize_type_info
+  - !Name __report_securityfailure
+  - !Name ui32_to_f64
+  - !Name __GSHandlerCheck
+  - !Name writeHex_ui64
+  - !Name subj_extF80M_sub
+  - !Name subj_ui32_to_f64
+  - !Name f64_isNaN
+  - !Name f64_same
+  - !Name extF80_to_ui64
+  - !Name genCases_f32_a_next
+  - !Name softfloat_roundToI32
+  - !Name test_a_f32_z_i64_rx
+  - !Name genCases_extF80_abc_next
+  - !Name __castguard_slow_path_check_fastfail
+  - !Name genCases_extF80_ab_next
+  - !Name extF80M_to_ui32
+  - !Name __local_stdio_scanf_options
+  - !Name __scrt_uninitialize_crt
+  - !Name subj_extF80M_mul
+  - !Name subj_f64_sqrt
+  - !Name capture_previous_context
+  - !Name test_a_i64_z_f64
+  - !Name softfloat_roundPackToF32
+  - !Name f64_roundToInt
+  - !Name __scrt_initialize_default_local_stdio_options
+  - !Name writeCase_a_f64
+  - !Name __GSHandlerCheckCommon
+  - !Name genCases_f64_abc_init
+  - !Name subj_extF80M_div
+  - !Name subj_ui64_to_f64
+  - !Name subj_ui32_to_f32
+  - !Name softfloat_roundToI64
+  - !Name randomN_ui8
+  - !Name subj_extF80M_eq
+  - !Name subj_ui64_to_f32
+  - !Name extF80M_to_i32
+  - !Name __scrt_is_user_matherr_present
+  - !Name softfloat_roundPackToF64
+  - !Name writeHex_f64
+  - !Name subj_f32_lt
+  - !Name __scrt_dllmain_uninitialize_c
+  - !Name __scrt_narrow_argv_policy::configure_argv
+  - !Name test_abz_extF80
+  - !Name _onexit
+  - !Name __scrt_set_unhandled_exception_filter
+  - !Name __scrt_get_dyn_tls_init_callback
+  - !Name test_ab_f32_z_bool
+  - !Name extF80_to_i64
+  - !Name genCases_f32_abc_init
+  - !Name subj_extF80M_le
+  - !Name __scrt_get_dyn_tls_dtor_callback
+  - !Name __castguard_slow_path_check_os_handled
+  - !Name __scrt_narrow_environment_policy::initialize_environment
+  - !Name __crt_debugger_hook
+  - !Name __scrt_unhandled_exception_filter
+  - !Name f64_to_ui64
+  - !Name i32_to_f32
+  - !Name __scrt_fastfail
+  - !Name invoke_main
+  - !Name softfloat_shiftRightJam32
+  - !Name writeHex_bf16
+  - !Name writeCase_z_f32
+  - !Name subj_extF80M_lt
+  - !Name subj_f64_eq
+  - !Name subj_i32_to_f64
+  - !Name verCases_writeFunctionName
+  - !Name extF80_to_ui32
+  - !Name ui64_to_f64
+  - !Name __scrt_dllmain_uninitialize_critical
+  - !Name randomN_ui16
+  - !Name writeCase_z_f64
+  - !Name subj_i32_to_f32
+  - !Name f32_to_i64
+  - !Name main
+  - !Name sqrt
+  - !Name at_quick_exit
+  - !Name softfloat_propagateNaNF32UI
+  - !Name subj_f64_le
+  - !Name __scrt_initialize_crt
+  - !Name post_pgo_initialization
+  - !Name subj_i64_to_f64
+  - !Name __scrt_is_ucrt_dll_in_use
+  - !Name test_a_extF80_z_ui64_rx
+  - !Name test_az_f64_rx
+  - !Name f64_lt
+  - !Name subj_i64_to_f32
+  - !Name find_pe_section
+  - !Name __scrt_main_policy::set_app_type
+  - !Name pre_cpp_initialization
+  - !Name __C_specific_handler
+  - !Name __report_securityfailureEx
+  - !Name ui32_to_f32
+  - !Name test_a_f64_z_i64_rx
+  - !Name atexit
+  - !Name test_a_extF80_z_i32_rx
+  - !Name __std_type_info_destroy_list
+  - !Name __scrt_file_policy::set_commode
+  - !Name softfloat_propagateNaNExtF80UI
+  - !Name subj_f64_lt
+  - !Name subj_f32_to_f64
+  - !Name __current_exception
+  - !Name __castguard_slow_path_compat_check
+  - !Name genCases_f64_abc_next
+  - !Name __current_exception_context
+  - !Name __scrt_common_main
+  - !Name f32_le
+  - !Name subj_f32_to_ui32_rx_minMag
+  - !Name memset
+  - !Name _RTC_Initialize
+  - !Name __get_entropy
+  - !Name __acrt_iob_func
+  - !Name _guard_xfg_dispatch_icall_nop
+  - !Name test_a_f32_z_i32_rx
+  - !Name __scrt_file_policy::set_fmode
+  - !Name genCases_ui32_a_init
+  - !Name fputs
+  - !Name softfloat_f32UIToCommonNaN
+  - !Name '`__scrt_common_main_seh''::`1''::filt$0'
+  - !Name f64_isSignalingNaN
+  - !Name __scrt_common_main_seh
+  - !Name subj_ui32_to_extF80M
+  - !Name exit
+  - !Name subj_f64_to_ui32_rx_minMag
+  - !Name _guard_icall_checks_enforced
+  - !Name subj_f32_to_ui64_rx_minMag
+  - !Name fputc
+  - !Name test_a_i32_z_f32
+  - !Name f64_to_ui32
+  - !Name f32_to_ui64
+  - !Name __scrt_initialize_onexit_tables
+  - !Name mainCRTStartup
+  - !Name fflush
+  - !Name random_ui8
+  - !Name f32_isSignalingNaN
+  - !Name writeCase_ab_f64
+  - !Name __stdio_common_vfprintf
+  - !Name vfprintf
+  - !Name extF80M_roundToInt
+  - !Name subj_ui64_to_extF80M
