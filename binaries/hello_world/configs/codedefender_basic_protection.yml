@@ -1,0 +1,366 @@
+version: 1.0.1
+module_settings:
+  ida_crasher: false
+  import_protection: false
+  obscure_entry_point: false
+  clear_unwind_info: false
+  fake_pdb_string:
+    enabled: false
+    value: ''
+  custom_section_name:
+    enabled: false
+    value: ''
+profiles:
+- name: New Profile
+  passes:
+  - type: ObscureReferences
+  - type: MixedBooleanArithmetic
+    iterations: 1
+    probability: 100
+    semantics:
+      add: true
+      sub: true
+      and: true
+      xor: true
+      or: true
+      not: true
+      neg: true
+    bitwidths:
+      bit8: true
+      bit16: true
+      bit32: true
+      bit64: true
+  - type: MutationEngine
+    iterations: 1
+    probability: 100
+    extension: SSE
+    semantics:
+      add: true
+      sub: true
+      and: true
+      xor: true
+      or: true
+      not: true
+      neg: true
+    bitwidths:
+      bit8: true
+      bit16: true
+      bit32: true
+      bit64: true
+  compiler_settings:
+    assembler_settings:
+      shuffle_basic_blocks: true
+      instruction_prefix: ''
+      random_prefix_chance: 0.0
+    optimization_settings:
+      constant_propagation: true
+      instruction_combine: true
+      dead_code_elim: true
+      prune_useless_block_params: true
+      iterations: 0
+    lifter_settings:
+      lift_calls: true
+      calling_convention: WindowsAbi
+      max_stack_copy_size: 512
+      split_on_calls_fallback: true
+  symbols:
+  - !Name core::slice::index::slice_start_index_len_fail
+  - !Name std::alloc::rust_oom
+  - !Name core::str::pattern::simd_contains::closure$2
+  - !Name <char as core::fmt::Debug>::fmt
+  - !Name core::fmt::builders::DebugStruct::field
+  - !Name std::env::current_dir
+  - !Name _onexit
+  - !Name core::fmt::Write::write_fmt<std::io::default_write_fmt::Adapter<std::io::stdio::StdoutLock> >
+  - !Name operator delete
+  - !Name core::slice::index::slice_end_index_len_fail
+  - !Name panic_unwind::imp::exception_copy
+  - !Name std::panicking::panic_count::is_zero_slow_path
+  - !Name std::sys::stdio::windows::write_valid_utf8_to_console
+  - !Name __isa_available_init
+  - !Name alloc::string::String::from_utf16
+  - !Name <std::ffi::os_str::OsString as std::os::windows::ffi::OsStringExt>::from_wide
+  - !Name alloc::string::impl$61::write_char
+  - !Name core::ptr::drop_in_place<std::panicking::begin_panic_handler::FormatStringPayload>
+  - !Name core::fmt::impl$75::fmt<core::panic::location::Location>
+  - !Name __scrt_acquire_startup_lock
+  - !Name core::slice::index::slice_index_order_fail
+  - !Name std::sys::path::windows::parse_prefix
+  - !Name core::fmt::Write::write_fmt<std::io::default_write_fmt::Adapter<alloc::vec::Vec<u8,alloc::alloc::Global> > >
+  - !Name core::str::traits::str_index_overflow_fail
+  - !Name __rustc::__rg_oom
+  - !Name <core::fmt::Formatter as core::fmt::Write>::write_char
+  - !Name std::panicking::try::cleanup
+  - !Name alloc::raw_vec::RawVec::grow_one<tuple$<ptr_mut$<u8>,void (*)(ptr_mut$<u8>)>,alloc::alloc::Global>
+  - !Name std::sys_common::wtf8::Wtf8Buf::push_code_point_unchecked
+  - !Name std::io::impls::impl$11::is_write_vectored<alloc::alloc::Global>
+  - !Name core::num::error::impl$7::fmt
+  - !Name alloc::string::impl$61::write_str
+  - !Name core::fmt::Write::write_char<std::io::default_write_fmt::Adapter<std::io::cursor::Cursor<ref_mut$<slice2$<u8> > > > >
+  - !Name std::sys::backtrace::__rust_end_short_backtrace
+  - !Name core::ptr::drop_in_place<enum2$<core::result::Result<tuple$<>,std::io::error::Error> > >
+  - !Name core::slice::memchr::memchr_aligned
+  - !Name alloc::fmt::format::format_inner
+  - !Name atexit
+  - !Name std::sys::thread_local::guard::windows::tls_callback
+  - !Name alloc::sync::Arc::drop_slow<std::sync::poison::mutex::Mutex<alloc::vec::Vec<u8,alloc::alloc::Global> >,alloc::alloc::Global>
+  - !Name std::io::impls::impl$11::write_all_vectored<alloc::alloc::Global>
+  - !Name core::panic::PanicPayload::as_str<std::panicking::begin_panic_handler::FormatStringPayload>
+  - !Name core::ops::function::FnOnce::call_once<std::sys::backtrace::_print_fmt::closure$1::closure_env$0,tuple$<ref$<std::backtrace_rs::symbolize::Symbol> > >
+  - !Name core::panicking::panic_fmt
+  - !Name alloc::raw_vec::capacity_overflow
+  - !Name core::str::converts::from_utf8
+  - !Name core::fmt::impl$11::pad_integral::write_prefix
+  - !Name core::fmt::impl$73::fmt<usize>
+  - !Name core::unicode::printable::check
+  - !Name <str as core::fmt::Debug>::fmt
+  - !Name __scrt_initialize_crt
+  - !Name <rustc_demangle::v0::Ident as core::fmt::Display>::fmt
+  - !Name panic_unwind::imp::exception_cleanup
+  - !Name std::backtrace_rs::symbolize::dbghelp::resolve
+  - !Name __security_init_cookie
+  - !Name <std::panicking::begin_panic_handler::StaticStrPayload as core::panic::PanicPayload>::take_box
+  - !Name core::str::count::do_count_chars
+  - !Name core::fmt::num::<impl core::fmt::UpperHex for i64>::fmt
+  - !Name std::sys::backtrace::output_filename
+  - !Name std::sync::poison::once::impl$2::call_once::closure$0<std::rt::cleanup::closure_env$0>
+  - !Name <std::io::stdio::StdoutLock as std::io::Write>::write_all
+  - !Name std::io::impls::impl$11::write<alloc::alloc::Global>
+  - !Name core::ptr::drop_in_place<std::io::buffered::bufwriter::impl$1::flush_buf::BufGuard>
+  - !Name core::fmt::impl$73::fmt<dyn$<core::fmt::Debug> >
+  - !Name core::fmt::impl$27::fmt<core::ffi::c_void>
+  - !Name core::ptr::drop_in_place<std::io::default_write_fmt::Adapter<std::io::cursor::Cursor<ref_mut$<slice2$<u8> > > > >
+  - !Name core::ops::function::FnOnce::call_once<std::sync::poison::once::impl$2::call_once::closure_env$0<std::rt::cleanup::closure_env$0>,tuple$<ref$<std::sync::poison::once::OnceState> > >
+  - !Name __rustc::__rust_foreign_exception
+  - !Name core::str::slice_error_fail
+  - !Name std::thread::impl$2::new::exhausted
+  - !Name main
+  - !Name std::backtrace_rs::symbolize::dbghelp::resolve_with_inline
+  - !Name core::ptr::drop_in_place<std::sync::reentrant_lock::ReentrantLockGuard<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > > >
+  - !Name std::io::stdio::_print
+  - !Name std::rt::handle_rt_panic<isize>
+  - !Name core::panicking::panic_nounwind_fmt
+  - !Name core::str::pattern::impl$31::is_contained_in
+  - !Name core::ops::function::FnOnce::call_once<std::sync::poison::once::impl$2::call_once_force::closure_env$0<std::sync::once_lock::impl$0::initialize::closure_env$0<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::sync::once_lock::impl$0::get_or_init::closure_env$0<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::io::stdio::stdout::closure_env$0>,never$> >,tuple$<ref$<std::sync::poison::once::OnceState> > >
+  - !Name std::io::Write::write_fmt<std::sys::stdio::windows::Stderr>
+  - !Name core::slice::index::slice_start_index_len_fail::do_panic::runtime
+  - !Name core::str::slice_error_fail_rt
+  - !Name __rustc::__rdl_alloc
+  - !Name alloc::raw_vec::impl$4::reserve::do_reserve_and_handle<alloc::alloc::Global>_0
+  - !Name std::sys::sync::mutex::futex::Mutex::lock_contended
+  - !Name __scrt_initialize_onexit_tables
+  - !Name core::str::count::char_count_general_case
+  - !Name <core::cell::BorrowMutError as core::fmt::Debug>::fmt
+  - !Name core::ops::range::impl$1::fmt<usize>
+  - !Name <std::sys::stdio::windows::Stderr as std::io::Write>::write
+  - !Name std::sys::pal::windows::stack_overflow::vectored_handler::closure$0
+  - !Name std::backtrace_rs::dbghelp::enum_loaded_modules_callback
+  - !Name std::backtrace_rs::print::BacktraceFrameFmt::print_raw_with_column
+  - !Name <char as core::fmt::Display>::fmt
+  - !Name alloc::sync::Arc::drop_slow<std::thread::Inner,alloc::alloc::Global>
+  - !Name alloc::vec::Vec::extend_desugared<u16,alloc::alloc::Global,std::sys_common::wtf8::EncodeWide>
+  - !Name std::sys::pal::windows::to_u16s::inner
+  - !Name std::backtrace_rs::print::BacktraceFrameFmt::print_fileline
+  - !Name std::io::stdio::try_set_output_capture
+  - !Name core::ptr::drop_in_place<enum2$<core::result::Result<enum2$<core::option::Option<alloc::sync::Arc<std::sync::poison::mutex::Mutex<alloc::vec::Vec<u8,alloc::alloc::Global> >,alloc::alloc::Global> > >,std::thread::local::AccessError> > >
+  - !Name core::fmt::num::impl$89::fmt
+  - !Name __rustc::__rust_alloc
+  - !Name std::io::buffered::bufwriter::BufWriter::write_all_cold<std::io::stdio::StdoutRaw>
+  - !Name core::fmt::num::<impl core::fmt::LowerHex for i8>::fmt
+  - !Name core::fmt::Formatter::debug_tuple_field1_finish
+  - !Name core::fmt::builders::DebugList::finish
+  - !Name core::ptr::drop_in_place<alloc::boxed::Box<dyn$<core::any::Any,core::marker::Send>,alloc::alloc::Global> >
+  - !Name std::sys::thread_local::native::eager::destroy<core::cell::Cell<enum2$<core::option::Option<alloc::sync::Arc<std::sync::poison::mutex::Mutex<alloc::vec::Vec<u8,alloc::alloc::Global> >,alloc::alloc::Global> > > > >
+  - !Name std::sys::pal::windows::os::error_string
+  - !Name std::panicking::begin_panic_handler::impl$3::get
+  - !Name __rustc::__rust_dealloc
+  - !Name core::ptr::drop_in_place<std::sync::poison::rwlock::RwLockReadGuard<enum2$<std::panicking::Hook> > >
+  - !Name std::panicking::begin_panic_handler::impl$3::as_str
+  - !Name std::panicking::default_hook::closure$0::closure$0
+  - !Name std::env::_var_os
+  - !Name __scrt_initialize_mta
+  - !Name __rustc::__rust_realloc
+  - !Name std::rt::lang_start_internal
+  - !Name rustc_demangle::demangle
+  - !Name __scrt_is_managed_app
+  - !Name std::sys::thread_local::destructors::list::register
+  - !Name <std::panicking::begin_panic_handler::StaticStrPayload as core::fmt::Display>::fmt
+  - !Name std::sys::backtrace::lock
+  - !Name std::io::default_write_fmt::impl$0::write_str<std::sys::stdio::windows::Stderr>
+  - !Name std::io::impls::impl$11::write_vectored<alloc::alloc::Global>
+  - !Name core::ptr::drop_in_place<alloc::string::String>
+  - !Name core::fmt::Write::write_char<std::io::default_write_fmt::Adapter<alloc::vec::Vec<u8,alloc::alloc::Global> > >
+  - !Name __rustc::__rust_alloc_error_handler
+  - !Name std::sys::stdio::windows::write
+  - !Name __scrt_is_ucrt_dll_in_use
+  - !Name alloc::raw_vec::RawVec::grow_one<u16,alloc::alloc::Global>
+  - !Name core::fmt::Write::write_fmt<core::fmt::builders::PadAdapter>
+  - !Name operator delete_0
+  - !Name core::ptr::drop_in_place<std::io::error::Error>
+  - !Name __rustc::__rdl_dealloc
+  - !Name std::panicking::begin_panic_handler::closure$0
+  - !Name __CxxFrameHandler3
+  - !Name core::panicking::panic
+  - !Name core::fmt::num::imp::<impl core::fmt::Display for u8>::fmt
+  - !Name <core::fmt::Formatter as core::fmt::Write>::write_str
+  - !Name memcpy
+  - !Name std::panicking::default_hook
+  - !Name std::alloc::default_alloc_error_hook
+  - !Name core::ptr::drop_in_place<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> >
+  - !Name core::slice::index::slice_end_index_len_fail::do_panic::runtime
+  - !Name memset
+  - !Name core::fmt::num::imp::<impl core::fmt::Display for u64>::fmt
+  - !Name <core::fmt::builders::PadAdapter as core::fmt::Write>::write_str
+  - !Name alloc::string::impl$61::write_str_0
+  - !Name rustc_demangle::try_demangle
+  - !Name memmove
+  - !Name std::sys::backtrace::_print_fmt::closure$0
+  - !Name _get_startup_argv_mode
+  - !Name memcmp
+  - !Name alloc::string::String::push
+  - !Name alloc::raw_vec::finish_grow<alloc::alloc::Global>
+  - !Name pre_c_initialization
+  - !Name _CxxThrowException
+  - !Name _get_startup_file_mode
+  - !Name core::fmt::Formatter::debug_struct_field1_finish
+  - !Name <core::fmt::Arguments as core::fmt::Display>::fmt
+  - !Name __C_specific_handler
+  - !Name std::sys::pal::windows::c::SetThreadDescription::load
+  - !Name __scrt_initialize_type_info
+  - !Name __rustc::rust_panic
+  - !Name std::io::Write::write_fmt<std::io::cursor::Cursor<ref_mut$<slice2$<u8> > > >
+  - !Name __current_exception
+  - !Name std::panicking::panic_count::increase
+  - !Name __scrt_is_nonwritable_in_current_image
+  - !Name core::fmt::num::imp::impl$11::_fmt
+  - !Name __current_exception_context
+  - !Name __scrt_set_unhandled_exception_filter
+  - !Name core::ops::function::FnOnce::call_once<std::sys::backtrace::_print_fmt::closure_env$0,tuple$<ref_mut$<core::fmt::Formatter>,enum2$<std::backtrace_rs::types::BytesOrWideString> > >
+  - !Name core::any::impl$0::type_id<ref$<str$> >
+  - !Name _seh_filter_exe
+  - !Name core::any::impl$0::type_id<alloc::string::String>
+  - !Name __rustc::__rdl_realloc
+  - !Name core::panicking::panic_nounwind
+  - !Name core::fmt::write
+  - !Name alloc::raw_vec::handle_error
+  - !Name _set_app_type
+  - !Name __local_stdio_printf_options
+  - !Name __setusermatherr
+  - !Name __scrt_unhandled_exception_filter
+  - !Name core::slice::memchr::memrchr
+  - !Name <std::panicking::begin_panic_handler::FormatStringPayload as core::panic::PanicPayload>::get
+  - !Name __local_stdio_scanf_options
+  - !Name _configure_narrow_argv
+  - !Name <std::sys_common::wtf8::Wtf8 as core::fmt::Display>::fmt
+  - !Name std::sys::backtrace::_print_fmt::closure$1::closure$0
+  - !Name std::sys::sync::rwlock::futex::RwLock::wake_writer_or_readers
+  - !Name __rustc::__rust_panic_cleanup
+  - !Name core::fmt::num::<impl core::fmt::UpperHex for i8>::fmt
+  - !Name _initialize_narrow_environment
+  - !Name __scrt_initialize_default_local_stdio_options
+  - !Name std::sys::backtrace::BacktraceLock::print
+  - !Name _get_initial_narrow_environment
+  - !Name std::sync::once_lock::OnceLock::initialize<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::sync::once_lock::impl$0::get_or_init::closure_env$0<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::io::stdio::stdout::closure_env$0>,never$>
+  - !Name core::fmt::impl$73::fmt<u8>
+  - !Name _initterm
+  - !Name alloc::alloc::handle_alloc_error
+  - !Name core::fmt::impl$75::fmt<str$>_0
+  - !Name core::str::pattern::StrSearcher::new
+  - !Name <rustc_demangle::legacy::Demangle as core::fmt::Display>::fmt
+  - !Name _initterm_e
+  - !Name exit
+  - !Name std::sys::sync::rwlock::futex::RwLock::read_contended
+  - !Name _exit
+  - !Name __scrt_is_user_matherr_present
+  - !Name core::fmt::Write::write_fmt<alloc::string::String>_0
+  - !Name std::io::default_write_fmt::impl$0::write_str<std::io::stdio::StdoutLock>
+  - !Name _set_fmode
+  - !Name core::fmt::Write::write_char<std::io::default_write_fmt::Adapter<std::io::stdio::StdoutLock> >
+  - !Name core::fmt::impl$73::fmt<tuple$<> >
+  - !Name __scrt_get_dyn_tls_init_callback
+  - !Name __p___argc
+  - !Name core::slice::index::slice_index_order_fail::do_panic::runtime
+  - !Name core::result::unwrap_failed
+  - !Name core::cell::panic_already_borrowed
+  - !Name __p___argv
+  - !Name core::panicking::panic_bounds_check
+  - !Name __scrt_get_dyn_tls_dtor_callback
+  - !Name mainCRTStartup
+  - !Name core::unicode::unicode_data::cc::lookup
+  - !Name alloc::string::impl$61::write_char_0
+  - !Name _cexit
+  - !Name __crt_debugger_hook
+  - !Name _c_exit
+  - !Name __rustc::rust_begin_unwind
+  - !Name core::unicode::printable::is_printable
+  - !Name core::fmt::pointer_fmt_inner
+  - !Name core::fmt::impl$45::fmt
+  - !Name __scrt_fastfail
+  - !Name _register_thread_local_exe_atexit_callback
+  - !Name <rustc_demangle::Demangle as core::fmt::Display>::fmt
+  - !Name _configthreadlocale
+  - !Name std::sys::pal::windows::c::SetThreadDescription::fallback
+  - !Name std::path::Components::parse_next_component_back
+  - !Name std::io::default_write_fmt::impl$0::write_str<alloc::vec::Vec<u8,alloc::alloc::Global> >
+  - !Name std::sys::pal::windows::handle::Handle::synchronous_write
+  - !Name alloc::raw_vec::impl$4::reserve::do_reserve_and_handle<alloc::alloc::Global>
+  - !Name _set_new_mode
+  - !Name core::unicode::unicode_data::grapheme_extend::lookup_slow
+  - !Name _RTC_Initialize
+  - !Name core::fmt::builders::DebugList::entry
+  - !Name <core::fmt::builders::PadAdapter as core::fmt::Write>::write_char
+  - !Name __p__commode
+  - !Name std::io::Write::write_fmt<alloc::vec::Vec<u8,alloc::alloc::Global> >
+  - !Name _initialize_onexit_table
+  - !Name __chkstk
+  - !Name core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt
+  - !Name alloc::raw_vec::RawVec::grow_one<u8,alloc::alloc::Global>
+  - !Name _register_onexit_function
+  - !Name std::sync::once_lock::OnceLock::initialize<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::sync::once_lock::impl$0::get_or_init::closure_env$0<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::io::stdio::cleanup::closure_env$0>,never$>
+  - !Name std::sys::pal::windows::stack_overflow::vectored_handler
+  - !Name <std::backtrace_rs::symbolize::SymbolName as core::fmt::Display>::fmt
+  - !Name _crt_atexit
+  - !Name <std::panicking::begin_panic_handler::FormatStringPayload as core::panic::PanicPayload>::take_box
+  - !Name <std::sys::backtrace::BacktraceLock::print::DisplayBacktrace as core::fmt::Display>::fmt
+  - !Name <&std::io::stdio::Stdout as std::io::Write>::write_fmt
+  - !Name terminate
+  - !Name std::io::stdio::print_to_buffer_if_capture_used
+  - !Name free
+  - !Name core::str::error::impl$10::fmt
+  - !Name __scrt_release_startup_lock
+  - !Name core::fmt::Write::write_fmt<std::io::default_write_fmt::Adapter<std::io::cursor::Cursor<ref_mut$<slice2$<u8> > > > >
+  - !Name core::fmt::impl$73::fmt<enum2$<core::option::Option<u8> > >
+  - !Name core::fmt::num::imp::<impl core::fmt::Display for i32>::fmt
+  - !Name core::fmt::Formatter::debug_struct_field2_finish
+  - !Name __rustc::__rust_start_panic
+  - !Name core::ptr::drop_in_place<std::io::stdio::StdinLock>
+  - !Name post_pgo_initialization
+  - !Name alloc::string::impl$23::fmt
+  - !Name core::fmt::Write::write_fmt<alloc::string::String>
+  - !Name core::option::unwrap_failed
+  - !Name _RTC_Terminate
+  - !Name core::fmt::num::<impl core::fmt::LowerHex for i64>::fmt
+  - !Name core::panicking::panic_cannot_unwind
+  - !Name pre_cpp_initialization
+  - !Name core::ops::function::FnOnce::call_once<std::sync::poison::once::impl$2::call_once_force::closure_env$0<std::sync::once_lock::impl$0::initialize::closure_env$0<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::sync::once_lock::impl$0::get_or_init::closure_env$0<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw> > >,std::io::stdio::cleanup::closure_env$0>,never$> >,tuple$<ref$<std::sync::poison::once::OnceState> > >
+  - !Name core::fmt::Write::write_char<std::io::default_write_fmt::Adapter<std::sys::stdio::windows::Stderr> >
+  - !Name __scrt_uninitialize_crt
+  - !Name '`__scrt_common_main_seh''::`1''::filt$0'
+  - !Name std::sys::alloc::windows::process_heap_alloc
+  - !Name core::fmt::num::imp::impl$8::_fmt
+  - !Name <str as core::fmt::Display>::fmt
+  - !Name __rustc::__rust_drop_panic
+  - !Name std::panicking::payload_as_str
+  - !Name std::panic::get_backtrace_style
+  - !Name core::fmt::Write::write_fmt<std::io::default_write_fmt::Adapter<std::sys::stdio::windows::Stderr> >
+  - !Name core::option::expect_failed
+  - !Name _guard_xfg_dispatch_icall_nop
+  - !Name core::panicking::assert_failed
+  - !Name 'public: virtual void* type_info::`scalar deleting destructor''(unsigned int)'
+  - !Name __scrt_common_main_seh
+  - !Name core::fmt::Formatter::debug_list
+  - !Name <std::panicking::begin_panic_handler::FormatStringPayload as core::fmt::Display>::fmt
+  - !Name std::io::Write::write_vectored<std::sys::stdio::windows::Stderr>
+  - !Name std::io::default_write_fmt::impl$0::write_str<std::io::cursor::Cursor<ref_mut$<slice2$<u8> > > >
+  - !Name core::fmt::impl$75::fmt<str$>
+  - !Name __scrt_is_nonwritable_in_current_image$filt$0
