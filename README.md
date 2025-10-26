@@ -4,9 +4,6 @@ This repository contains binaries used to benchmark VMProtect vs Themida vs Code
 
 Visualized metric data can be seen on https://metrics.codedefender.io/
 
-> [!IMPORTANT] 
-> [Themida benchmarks are currently missing](#why-is-themida-missing-in-the-benchmarks).
-
 ## What do the metrics include
 
 The Metrics include:
@@ -66,22 +63,3 @@ The problem: VmProtect sometimes reports incorrect symbol names in error message
 As a workaround, we pre-filter symbols known to trigger this behavior.
 
 We're actively working on a fix!
-
-## Why is Themida Missing in the benchmarks
-
-Themida benchmark runs will be available soon!
-
-The main challenge has been automating binary obfuscation with Themida.
-
-_Why?_
-
-- **Themida lacks support for PDB Files**
-  Some of the test binaries used only ship with a PDB file attached.
-  Themida however does not support PDB files and rather depends on a certain .map file structure (.map files do not follow any standards).
-  This required us to write tooling to convert PDB files over to the .map file structure that Themida expects.
-
-- **Themida crashing on certain Instructions/Macros**
-  We run Themida over the CLI.
-  When Themida can't handle specific instructions or macros, it crashes and leaves the CLI hanging indefinitely.
-  We get no information about what went wrong or even if something went wrong, because Themida provides no feedback in these cases.
-  When Themida doesn't crash but errors out, it often doesn't return any errors to stderr in CLI mode. Even when it does provide error messages, they're generic and don't specify the conflicting macro or provide useful debugging information.
