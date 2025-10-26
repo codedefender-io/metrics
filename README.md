@@ -42,7 +42,7 @@ The Performance overhead might appear empty in some cases.
 
 First and foremost, this isn't a bug with the charts!
 
-In some rare cases, protected Codedefender run **faster** than the original binary.
+In some rare cases, the protected Codedefender binary runs **faster** than the original binary.
 
 _Why?_
 
