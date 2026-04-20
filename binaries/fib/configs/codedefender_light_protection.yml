@@ -1,0 +1,121 @@
+version: 1.0.1
+module_settings:
+  ida_crasher: false
+  import_protection: false
+  obscure_entry_point: false
+  clear_unwind_info: false
+  fake_pdb_string:
+    enabled: false
+    value: ''
+  custom_section_name:
+    enabled: false
+    value: ''
+profiles:
+- name: New Profile
+  passes:
+  - type: ObscureReferences
+  - type: ObscureConstants
+  - type: MutationEngine
+    iterations: 1
+    probability: 100
+    extension: SSE
+    semantics:
+      add: true
+      sub: true
+      and: true
+      xor: true
+      or: true
+      not: true
+      neg: true
+    bitwidths:
+      bit8: true
+      bit16: true
+      bit32: true
+      bit64: true
+  compiler_settings:
+    assembler_settings:
+      shuffle_basic_blocks: true
+      instruction_prefix: ''
+      random_prefix_chance: 0.0
+    optimization_settings:
+      constant_propagation: true
+      instruction_combine: true
+      dead_code_elim: true
+      prune_useless_block_params: true
+      iterations: 0
+    lifter_settings:
+      lift_calls: true
+      calling_convention: WindowsAbi
+      max_stack_copy_size: 512
+      split_on_calls_fallback: true
+  symbols:
+  - !Name __local_stdio_printf_options
+  - !Name pre_c_initialization
+  - !Name _set_fmode
+  - !Name __scrt_unhandled_exception_filter
+  - !Name __local_stdio_scanf_options
+  - !Name __p___argc
+  - !Name __scrt_release_startup_lock
+  - !Name _guard_xfg_dispatch_icall_nop
+  - !Name __p___argv
+  - !Name __scrt_initialize_default_local_stdio_options
+  - !Name printf
+  - !Name '`__scrt_common_main_seh''::`1''::filt$0'
+  - !Name _cexit
+  - !Name __scrt_initialize_mta
+  - !Name atexit
+  - !Name _c_exit
+  - !Name _RTC_Terminate
+  - !Name __scrt_is_managed_app
+  - !Name _register_thread_local_exe_atexit_callback
+  - !Name __scrt_is_ucrt_dll_in_use
+  - !Name _configthreadlocale
+  - !Name __report_gsfailure
+  - !Name __scrt_is_user_matherr_present
+  - !Name __scrt_initialize_crt
+  - !Name _set_new_mode
+  - !Name __C_specific_handler
+  - !Name __security_init_cookie
+  - !Name __scrt_uninitialize_crt
+  - !Name __scrt_is_nonwritable_in_current_image$filt$0
+  - !Name __p__commode
+  - !Name __current_exception
+  - !Name __scrt_get_dyn_tls_init_callback
+  - !Name post_pgo_initialization
+  - !Name _initialize_onexit_table
+  - !Name __current_exception_context
+  - !Name _register_onexit_function
+  - !Name __scrt_get_dyn_tls_dtor_callback
+  - !Name memset
+  - !Name _crt_atexit
+  - !Name _seh_filter_exe
+  - !Name __crt_debugger_hook
+  - !Name pre_cpp_initialization
+  - !Name terminate
+  - !Name _set_app_type
+  - !Name __scrt_fastfail
+  - !Name memcpy
+  - !Name __setusermatherr
+  - !Name __isa_available_init
+  - !Name _configure_narrow_argv
+  - !Name _onexit
+  - !Name _initialize_narrow_environment
+  - !Name _RTC_Initialize
+  - !Name _get_startup_argv_mode
+  - !Name mainCRTStartup
+  - !Name __scrt_common_main_seh
+  - !Name __security_check_cookie
+  - !Name _get_initial_narrow_environment
+  - !Name _get_startup_file_mode
+  - !Name __scrt_initialize_onexit_tables
+  - !Name _initterm
+  - !Name __scrt_initialize_type_info
+  - !Name __scrt_acquire_startup_lock
+  - !Name _initterm_e
+  - !Name main
+  - !Name __scrt_set_unhandled_exception_filter
+  - !Name __scrt_is_nonwritable_in_current_image
+  - !Name __raise_securityfailure
+  - !Name exit
+  - !Name capture_previous_context
+  - !Name _exit
